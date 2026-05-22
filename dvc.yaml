@@ -1,0 +1,28 @@
+stages:
+  train_v1:
+    cmd: python train_stage.py
+      --train-csv /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Train_1/train.csv
+      --train-root /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Train_1
+      --test-csv /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Test_1/test.csv
+      --test-root /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Test_1
+      --output-path model_v1.pth
+      --metrics-path metrics_v1.json
+      --log-dir logs/v1
+      --epochs 10
+      --lr 0.001
+      --s3-upload-key model_v1.pth
+
+  finetune_v2:
+    cmd: python train_stage.py
+      --train-csv /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Train_2/train.csv
+      --train-root /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Train_2
+      --test-csv /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Test_2/test.csv
+      --test-root /kaggle/input/datasets/stanislavkim/dataset/ai-vs-human-generated-dataset-hw/Test_2
+      --pretrained-path model_v1.pth
+      --output-path model_v2.pth
+      --metrics-path metrics_v2.json
+      --log-dir logs/v2
+      --epochs 5
+      --lr 0.0001
+      --s3-download-key model_v1.pth
+      --s3-upload-key model_v2.pth
