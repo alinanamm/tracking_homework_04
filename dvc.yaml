@@ -11,6 +11,13 @@ stages:
       --epochs 10
       --lr 0.001
       --s3-upload-key model_v1.pth
+    deps:
+      - train_stage.py
+    outs:
+      - model_v1.pth
+    metrics:
+      - metrics_v1.json:
+          cache: false
 
   finetune_v2:
     cmd: python train_stage.py
@@ -26,3 +33,11 @@ stages:
       --lr 0.0001
       --s3-download-key model_v1.pth
       --s3-upload-key model_v2.pth
+    deps:
+      - train_stage.py
+      - model_v1.pth
+    outs:
+      - model_v2.pth
+    metrics:
+      - metrics_v2.json:
+          cache: false
